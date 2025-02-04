@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.FragmentAddUpdateFee">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gym Membership Price"
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1 Month Fee"
+        android:layout_marginTop="15dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0.00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtOneMonth"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3 Month Fee"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0.00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtThreeMonth"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6 Month Fee"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0.00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtSixMonth"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1 Year Fee"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0.00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtOneYear"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3 Year Fee"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0.00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtThreeYear"
+            tools:ignore="Autofill"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="Save"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/purple_500"
+            android:textColor="@color/white"
+            android:layout_margin="15sp"
+            android:id="@+id/btnAddMemberShip"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

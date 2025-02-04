@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Gym Management</string>
+    <string name="log_in">Log In</string>
+    <string name="home">Home</string>
+    <string name="add_member">Add Member</string>
+    <string name="fee_panding">Fee Panding</string>
+    <string name="setting">Setting</string>
+    <string name="add_update_fee">Add/Update Fee</string>
+    <string name="change_password_mobile">Change Password/Mobile</string>
+    <string name="log_out">Log Out</string>
+
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="membership">
+        <item>Select</item>
+        <item>1 Month</item>
+        <item>3 Month</item>
+        <item>6 Month</item>
+        <item>1 Year</item>
+        <item>3 Year</item>
+
+    </string-array>
+
+</resources>

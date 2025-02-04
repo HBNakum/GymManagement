@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group>
+        <item android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home"/>
+
+        <item android:id="@+id/nav_add"
+            android:icon="@drawable/ic_add_member"
+            android:title="Add Member"/>
+
+        <item android:id="@+id/nav_nav_fee_panding"
+            android:icon="@drawable/fees"
+            android:title="Fees Panding"/>
+    </group>
+
+    <item android:title="Setting">
+
+        <menu>
+
+            <item android:id="@+id/nav_update_fee"
+                android:icon="@drawable/ic_cost_seting"
+                android:title="Add Update Fee"/>
+
+            <item android:id="@+id/nav_change_password"
+                android:title="Change Password Mobile"
+                android:icon="@drawable/ic_setting"/>
+
+            <item android:id="@+id/nav_log_out"
+                android:icon="@drawable/setting"
+                android:title="Log Out"/>
+
+
+        </menu>
+
+    </item>
+</menu>
