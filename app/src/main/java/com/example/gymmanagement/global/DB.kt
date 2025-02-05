@@ -17,7 +17,7 @@ class DB(val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         db?.execSQL("DROP TABLE IF EXISTS ADMIN")
         db?.execSQL("DROP TABLE IF EXISTS MEMBER")
         db?.execSQL("DROP TABLE IF EXISTS FEE")
-        onCreate(db)
+
     }
 
     fun executeQuery(sql: String): Boolean {
