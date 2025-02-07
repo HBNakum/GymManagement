@@ -58,7 +58,6 @@ dependencies {
         implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1") // LifecycleScope
 
 
-
         // Runtime Permissions using Activity Result API
         implementation("androidx.activity:activity-ktx:1.8.2")
 

@@ -32,6 +32,11 @@
         <item name="color">@color/white</item>
     </style>
 
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 
     <style name="Theme.GymManagement" parent="Base.Theme.GymManagement" />
 </resources>
