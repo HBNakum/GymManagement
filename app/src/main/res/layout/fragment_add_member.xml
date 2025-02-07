@@ -230,7 +230,7 @@
                             android:textSize="16sp"/>
 
                         <EditText
-                            android:id="@+id/edtAmount"
+                            android:id="@+id/edttAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
