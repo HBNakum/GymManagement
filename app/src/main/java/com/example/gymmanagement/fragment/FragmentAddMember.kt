@@ -9,6 +9,7 @@ import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.DatabaseUtils
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
@@ -50,6 +51,7 @@ class FragmentAddMember : Fragment() {
 
     private  lateinit var binding: FragmentAddMemberBinding
     private var captureImage: CaptureImage?=null
+    private var gender = "Male"
 
     companion object {
         private const val REQUEST_CAMERA = 100
@@ -140,6 +142,23 @@ class FragmentAddMember : Fragment() {
             }
 
         })
+
+        binding.radioGroup.setOnCheckedChangeListener{radioGroup, i->
+            when(id){
+                R.id.rdMale ->{
+                    gender = "Male"
+                }
+                R.id.rdFemale ->{
+                    gender = "Female"
+                }
+            }
+        }
+
+        binding.btnAddMemberSave.setOnClickListener{
+            if (validate()){
+                saveData()
+            }
+        }
 
 
         binding.imgPicDate.setOnClickListener{
@@ -311,7 +330,7 @@ class FragmentAddMember : Fragment() {
         }
     }
 
-    /** Handle Permission Request Results */
+    //Handle Permission Request Results
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -334,7 +353,7 @@ class FragmentAddMember : Fragment() {
         }
     }
 
-    /** Show Permission Denied Alert */
+    // Show Permission Denied Alert
     private fun showPermissionDeniedDialog(message: String) {
         AlertDialog.Builder(requireActivity())
             .setMessage(message)
@@ -342,19 +361,19 @@ class FragmentAddMember : Fragment() {
             .show()
     }
 
-    /** Open Camera */
+    //     Open Camera
     private fun takePicture() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(takePictureIntent, REQUEST_CAMERA)
     }
 
-    /** Open Gallery */
+    /// Open Gallery
     private fun takeFromGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_GALLERY)
     }
 
-    /** Handle Image Results */
+    //  Handle Image Results
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -375,7 +394,7 @@ class FragmentAddMember : Fragment() {
         }
     }
 
-    /** Convert Bitmap to File Path */
+    // Convert Bitmap to File Path
     private fun getImagePath(bitmap: Bitmap) {
         val tempUri: Uri? = captureImage?.getImageUri(requireActivity(), bitmap)
         actualImagePath = captureImage?.getRealPathFromURI(tempUri, requireActivity()).toString()
@@ -385,5 +404,60 @@ class FragmentAddMember : Fragment() {
             Glide.with(it).load(actualImagePath).into(binding.imgpic)
         }
     }
+
+
+    private  fun validate(): Boolean{
+        if(binding.edtFirstName.text.toString().trim().isEmpty()){
+            showToast("Enter First Name")
+            return false
+        }else if (binding.edtLastName.text.toString().trim().isEmpty()){
+            showToast("Enter Last Name")
+            return false
+        }else if (binding.edtAge.text.toString().trim().isEmpty()){
+            showToast("Enter Age")
+            return false
+        }else if (binding.edtMobile.text.toString().trim().isEmpty()) {
+            showToast("Enter Mobile Number")
+            return false
+        }
+        return true
+    }
+
+    private fun saveData(){
+        try {
+            val sqlQuery = "INSERT OR REPLACE INTO MEMBER(ID,FIRST_NAME,LAST_NAME,GENDER,AGE," +
+                    "WEIGHT,MOBILE,ADDRESS,DATE_OF_JOINING,MEMBERSHIP,EXPIRE_ON,DISCOUNT,TOTAL,STATUS)VALUES" +
+                    "('${getIncrementedId()}', ${DatabaseUtils.sqlEscapeString(binding.edtFirstName.text.toString().trim())}," +
+                    "${DatabaseUtils.sqlEscapeString(binding.edtLastName.text.toString().trim())},'$gender'," +
+                    "'${binding.edtAge.text.toString().trim()}','${binding.edtWeight.text.toString().trim()}'," +
+                    "'${binding.edtMobile.text.toString().trim()}', ${DatabaseUtils.sqlEscapeString(binding.edtAddress.text.toString().trim())}," +
+                    "'${MyFunction.returnSQLDateFormat(binding.edtJoiningDate.text.toString().trim())}','${binding.spMembership.selectedItem.toString().trim()}'," +
+                    "'${MyFunction.returnSQLDateFormat(binding.edtExpire.text.toString().trim())}','${binding.edtDiscount.text.toString().trim()}'," +
+                    "'${binding.edttAmount.text.toString().trim()}','A')"
+
+            Log.d("SQL_INSERT", sqlQuery)  // Debugging line to print the query
+            db?.executeQuery(sqlQuery)
+            showToast("Data Saved Successfully")
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun getIncrementedId(): String {
+        var incrementId = "1" // Default value if no record exists
+        try {
+            val sqlQuery = "SELECT IFNULL(MAX(ID)+1, '1') AS ID FROM MEMBER"
+            db?.fireQuery(sqlQuery)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    incrementId = cursor.getString(cursor.getColumnIndexOrThrow("ID"))
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return incrementId
+    }
+
 
 }
