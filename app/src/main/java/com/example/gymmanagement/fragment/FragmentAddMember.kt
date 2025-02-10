@@ -181,11 +181,13 @@ class FragmentAddMember : Fragment() {
         try {
             val sqlQuery = "SELECT * FROM FEE WHERE ID = '1'"
             db?.fireQuery(sqlQuery)?.use {
-                oneMonth = MyFunction.getvalue(it,"ONE_MONTH")
-                threeMonth = MyFunction.getvalue(it,"THREE_MONTH")
-                sixMonth = MyFunction.getvalue(it,"SIX_MONTH")
-                oneYear = MyFunction.getvalue(it,"ONE_YEAR")
-                threeYear = MyFunction.getvalue(it,"THREE_YEAR")
+                if(it.count>0) {
+                    oneMonth = MyFunction.getvalue(it, "ONE_MONTH")
+                    threeMonth = MyFunction.getvalue(it, "THREE_MONTH")
+                    sixMonth = MyFunction.getvalue(it, "SIX_MONTH")
+                    oneYear = MyFunction.getvalue(it, "ONE_YEAR")
+                    threeYear = MyFunction.getvalue(it, "THREE_YEAR")
+                }
             }
         }catch (e: Exception){
             e.printStackTrace()
@@ -439,6 +441,7 @@ class FragmentAddMember : Fragment() {
             db?.executeQuery(sqlQuery)
             showToast("Data Saved Successfully")
 
+            clearData()
         }catch (e: Exception){
             e.printStackTrace()
         }
@@ -457,6 +460,22 @@ class FragmentAddMember : Fragment() {
             e.printStackTrace()
         }
         return incrementId
+    }
+
+    private fun clearData(){
+        binding.edtFirstName.setText("")
+        binding.edtLastName.setText("")
+        binding.edtAge.setText("")
+        binding.edtWeight.setText("")
+        binding.edtMobile.setText("")
+        binding.edtJoiningDate.setText("")
+        binding.edtAddress.setText("")
+        actualImagePath = ""
+
+        Glide.with(this)
+            .load(R.drawable.boy)
+            .into(binding.imgpic)
+
     }
 
 
