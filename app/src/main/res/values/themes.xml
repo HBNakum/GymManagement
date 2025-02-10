@@ -37,6 +37,14 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/purple_200</item>
+
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <item name="background">@color/white</item>
+    </style>
+
 
     <style name="Theme.GymManagement" parent="Base.Theme.GymManagement" />
 </resources>
