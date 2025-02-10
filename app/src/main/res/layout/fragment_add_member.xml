@@ -240,16 +240,39 @@
                             android:textSize="15sp"/>
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btnAddMemberSave"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="Save"
-                        android:background="@color/purple_500"
-                        android:textColor="@color/white"
-                        android:textAllCaps="false"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="10dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/btnAddMemberSave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="Save"
+                            android:background="@color/purple_500"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:layout_marginEnd="5dp"/>
+
+                        <Button
+                            android:id="@+id/btnActiveInactive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="Active"
+                            android:background="@color/purple_500"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:layout_marginStart="5dp"/>
+
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>

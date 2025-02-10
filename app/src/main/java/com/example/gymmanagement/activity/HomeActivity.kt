@@ -97,8 +97,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
             R.id.nav_add ->{
-                val fragment = FragmentAddMember()
-                loadFragment(fragment)
+                loadFragment()
 
                 if (drawer.isDrawerOpen(GravityCompat.START)){
                     drawer.closeDrawer(GravityCompat.START)
@@ -160,7 +159,15 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fragmentManager.beginTransaction().replace(R.id.frame_container,fragment).commit()
     }
 
-    //changes
+
+    private fun loadFragment(){
+        val fragment = FragmentAddMember()
+        val args = Bundle()
+        args.putString("ID","")
+        fragment.arguments = args
+        val fragmentManager: FragmentManager ?=supportFragmentManager
+        fragmentManager!!.beginTransaction().replace(R.id.frame_container,fragment,"FragmentAdd").commit()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         try {
