@@ -52,6 +52,7 @@ class FragmentAddMember : Fragment() {
     private  lateinit var binding: FragmentAddMemberBinding
     private var captureImage: CaptureImage?=null
     private var gender = "Male"
+    private var ID = ""
 
     companion object {
         private const val REQUEST_CAMERA = 100
@@ -69,10 +70,17 @@ class FragmentAddMember : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         db = activity?.let { DB(it) }
         captureImage = CaptureImage(activity)
+
+
+       //////////////////////////////////////...........................
+//        ID = this.arguments!!.getString("ID").toString()
+        ID = arguments?.getString("ID").orEmpty()
+
 
         val  cal = Calendar.getInstance()
         val dateSetListener = DatePickerDialog.OnDateSetListener{view1, year, monthOfYear, dayOfMonth ->
@@ -174,7 +182,12 @@ class FragmentAddMember : Fragment() {
         }
 
         getFee()
+
+        if (ID.trim().isNotEmpty()){
+            loadData()
+        }
     }
+
 
 
     private fun getFee(){
@@ -428,15 +441,14 @@ class FragmentAddMember : Fragment() {
     private fun saveData(){
         try {
             val sqlQuery = "INSERT OR REPLACE INTO MEMBER(ID,FIRST_NAME,LAST_NAME,GENDER,AGE," +
-                    "WEIGHT,MOBILE,ADDRESS,DATE_OF_JOINING,MEMBERSHIP,EXPIRE_ON,DISCOUNT,TOTAL,STATUS)VALUES" +
+                    "WEIGHT,MOBILE,ADDRESS,DATE_OF_JOINING,MEMBERSHIP,EXPIRE_ON,DISCOUNT,TOTAL,IMAGE_PATH,STATUS) VALUES" +
                     "('${getIncrementedId()}', ${DatabaseUtils.sqlEscapeString(binding.edtFirstName.text.toString().trim())}," +
                     "${DatabaseUtils.sqlEscapeString(binding.edtLastName.text.toString().trim())},'$gender'," +
                     "'${binding.edtAge.text.toString().trim()}','${binding.edtWeight.text.toString().trim()}'," +
                     "'${binding.edtMobile.text.toString().trim()}', ${DatabaseUtils.sqlEscapeString(binding.edtAddress.text.toString().trim())}," +
                     "'${MyFunction.returnSQLDateFormat(binding.edtJoiningDate.text.toString().trim())}','${binding.spMembership.selectedItem.toString().trim()}'," +
                     "'${MyFunction.returnSQLDateFormat(binding.edtExpire.text.toString().trim())}','${binding.edtDiscount.text.toString().trim()}'," +
-                    "'${binding.edttAmount.text.toString().trim()}','A')"
-
+                    "'${binding.edttAmount.text.toString().trim()}', '${actualImagePath}', 'A')"
             Log.d("SQL_INSERT", sqlQuery)  // Debugging line to print the query
             db?.executeQuery(sqlQuery)
             showToast("Data Saved Successfully")
@@ -476,6 +488,87 @@ class FragmentAddMember : Fragment() {
             .load(R.drawable.boy)
             .into(binding.imgpic)
 
+    }
+
+    private fun loadData(){
+        try {
+            val sqlQuery = "SELECT * FROM MEMBER WHERE ID = '$ID'"
+            db?.fireQuery(sqlQuery)?.use {
+                if (it.count>0){
+                    val firstName = MyFunction.getvalue(it,"FIRST_NAME")
+                    val lastName = MyFunction.getvalue(it,"LAST_NAME")
+                    val age = MyFunction.getvalue(it,"AGE")
+                    val gender = MyFunction.getvalue(it,"GENDER")
+                    val weight = MyFunction.getvalue(it,"WEIGHT")
+                    val mobileNo = MyFunction.getvalue(it,"MOBILE")
+                    val address = MyFunction.getvalue(it,"ADDRESS")
+                    val dateOfJoin = MyFunction.getvalue(it,"DATE_OF_JOINING")
+                    val membership = MyFunction.getvalue(it,"MEMBERSHIP")
+                    val expiry = MyFunction.getvalue(it,"EXPIRE_ON")
+                    val discount = MyFunction.getvalue(it,"DISCOUNT")
+                    val total = MyFunction.getvalue(it,"TOTAL")
+                    actualImagePath = MyFunction.getvalue(it,"IMAGE_PATH")
+
+                    binding.edtFirstName.setText(firstName)
+                    binding.edtLastName.setText(lastName)
+                    binding.edtAge.setText(age)
+                    binding.edtWeight.setText(weight)
+                    binding.edtMobile.setText(mobileNo)
+                    binding.edtAddress.setText(address)
+                    binding.edtJoiningDate.setText(MyFunction.returnUserDateFormat(dateOfJoin))
+
+                    if (!actualImagePath.isNullOrEmpty()){
+                        Glide.with(this)
+                            .load(actualImagePath)
+                            .into(binding.imgpic)
+                    }else{
+                        if (gender == "Male"){
+                            Glide.with(this)
+                                .load(R.drawable.boy)
+                                .into(binding.imgpic)
+                        }else{
+                            Glide.with(this)
+                                .load(actualImagePath)
+                                .into(binding.imgpic)
+                        }
+                    }
+                    if (membership.trim().isNotEmpty()){
+                        when(membership){
+                            "1 Month" ->{
+                                binding.spMembership.setSelection(1)
+                            }
+                            "3 Months" ->{
+                                binding.spMembership.setSelection(2)
+                            }
+                            "6 Months" ->{
+                                binding.spMembership.setSelection(3)
+                            }
+                            "1 Year" ->{
+                                binding.spMembership.setSelection(4)
+                            }
+                            "3 Years" ->{
+                                binding.spMembership.setSelection(5)
+                            }
+                            else -> {
+                                binding.spMembership.setSelection(0)
+                            }
+                        }
+                    }
+
+                    if (gender == "Male"){
+                        binding.radioGroup.check(R.id.rdMale)
+                    }else{
+                        binding.radioGroup.check(R.id.rdFemale)
+                    }
+                    binding.edtExpire.setText(MyFunction.returnUserDateFormat(expiry))
+                    binding.edttAmount.setText(total)
+                    binding.edtDiscount.setText(discount)
+                }
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
 

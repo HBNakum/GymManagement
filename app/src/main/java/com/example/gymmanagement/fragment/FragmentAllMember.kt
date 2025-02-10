@@ -1,10 +1,12 @@
 package com.example.gymmanagement.fragment
 
+import android.R.attr.fragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gymmanagement.R
@@ -88,6 +90,7 @@ class FragmentAllMember : BaseFragment() {
                             weight =  MyFunction.getvalue(it,"WEIGHT"),
                             mobile = MyFunction.getvalue(it,"MOBILE"),
                             address = MyFunction.getvalue(it,"ADDRESS"),
+                            image = MyFunction.getvalue(it,"IMAGE_PATH"),
                             dateOfJoining = MyFunction.returnUserDateFormat(MyFunction.getvalue(it,"DATE_OF_JOINING")),
                             expiryDate = MyFunction.returnUserDateFormat(MyFunction.getvalue(it,"EXPIRE_ON")))
 
@@ -104,12 +107,27 @@ class FragmentAllMember : BaseFragment() {
                 adapter = AdapterLoadMember(arrayList)
                 binding.recyclerViewMember.layoutManager = LinearLayoutManager(activity)
                 binding.recyclerViewMember.adapter = adapter
+
+
+                adapter?.onClick {
+                    loadFragment(it)
+                }
+
             }else{
                 binding.recyclerViewMember.visibility = View.GONE
                 binding.txtAllMemberNDF.visibility = View.VISIBLE
             }
             CloseDialog()
         })
+    }
+
+    private fun loadFragment(id: String){
+        val fragment = FragmentAddMember()
+        val args = Bundle()
+        args.putString("ID",id)
+        fragment.arguments = args
+        val fragmentManager: FragmentManager ?=fragmentManager
+        fragmentManager!!.beginTransaction().replace(R.id.frame_container,fragment,"FragmentAdd").commit()
     }
 
 
