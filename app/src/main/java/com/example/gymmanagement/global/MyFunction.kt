@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.database.Cursor
 import android.util.Log
 import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MyFunction {
 
@@ -51,6 +53,17 @@ class MyFunction {
                 e.printStackTrace()
             }
             return  ""
+        }
+
+        fun getCurrentDate(): String{
+            var txtDate = ""
+            try {
+                txtDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+            return txtDate
         }
 
     }

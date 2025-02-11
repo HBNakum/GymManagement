@@ -5,10 +5,34 @@
     android:layout_height="match_parent"
     tools:context=".fragment.FragmentFeePending">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Fees Pending" />
+        android:layout_margin="5dp"
+        android:id="@+id/edtPendingSearch"
+        android:hint="@string/search"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        tools:ignore="Autofill,TextFields"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/edtPendingSearch"
+        android:id="@+id/recyclerViewPending"
+        android:layout_margin="5dp"
+        android:visibility="visible"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/txtPendingNDF"
+        android:layout_below="@id/recyclerViewPending"
+        android:textColor="@color/red"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:text="@string/no_data_found"/>
+
 
 </RelativeLayout>

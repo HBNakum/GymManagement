@@ -2,6 +2,8 @@ package com.example.gymmanagement.fragment
 
 import android.R.attr.fragment
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Locale
 
 
 class FragmentAllMember : BaseFragment() {
@@ -55,6 +58,21 @@ class FragmentAllMember : BaseFragment() {
         binding.imgAddMember.setOnClickListener{
             loadFragment("")
         }
+
+        binding.edtAllMemberSearch.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                myFilter(s.toString())
+            }
+
+        })
 
     }
 
@@ -133,6 +151,19 @@ class FragmentAllMember : BaseFragment() {
         fragment.arguments = args
         val fragmentManager: FragmentManager ?=fragmentManager
         fragmentManager!!.beginTransaction().replace(R.id.frame_container,fragment,"FragmentAdd").commit()
+    }
+
+    private fun myFilter(searchValue: String){
+        val temp: ArrayList<AllMember> = ArrayList()
+        if (arrayList.size>0){
+            for (list in arrayList){
+                if (list.firstName.toLowerCase(Locale.ROOT).contains(searchValue.toLowerCase(Locale.ROOT))||
+                    list.lastName.toLowerCase(Locale.ROOT).contains(searchValue.toLowerCase(Locale.ROOT))){
+                    temp.add(list)
+                }
+            }
+        }
+        adapter?.updateList(temp)
     }
 
 

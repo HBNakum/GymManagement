@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.gymmanagement.databinding.AllMemberListResBinding
 import com.example.gymmanagement.model.AllMember
 
-class AdapterLoadMember(val  arrayList: ArrayList<AllMember>): RecyclerView.Adapter<AdapterLoadMember.MyViewHolder>() {
+class AdapterLoadMember(var  arrayList: ArrayList<AllMember>): RecyclerView.Adapter<AdapterLoadMember.MyViewHolder>() {
 
     private var onClick: ((String) -> Unit)?=null
     fun onClick(onClick: ((String) -> Unit)){
@@ -62,4 +62,10 @@ class AdapterLoadMember(val  arrayList: ArrayList<AllMember>): RecyclerView.Adap
     override fun getItemCount(): Int {
         return arrayList.size
     }
+
+    fun  updateList(list:ArrayList<AllMember>){
+        arrayList = list
+        notifyDataSetChanged()
+    }
+
 }

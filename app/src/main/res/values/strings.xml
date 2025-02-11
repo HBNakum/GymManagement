@@ -22,7 +22,8 @@
     <string name="_6_month_fee">6 Month Fee</string>
     <string name="_1_year_fee">1 Year Fee</string>
     <string name="_3_year_fee">3 Years Fee</string>
-
+    <string name="search">Search</string>
+    <string name="no_data_found">No Data Found</string>
 
 
     <string-array name="membership">
