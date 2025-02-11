@@ -24,6 +24,8 @@
     <string name="_3_year_fee">3 Years Fee</string>
     <string name="search">Search</string>
     <string name="no_data_found">No Data Found</string>
+    <string name="renewal">Renewal</string>
+    <string name="active">Active</string>
 
 
     <string-array name="membership">

@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -33,10 +34,12 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.gymmanagement.R
 import com.example.gymmanagement.databinding.FragmentAddMemberBinding
+import com.example.gymmanagement.databinding.RenewDialogBinding
 import com.example.gymmanagement.global.CaptureImage
 import com.example.gymmanagement.global.DB
 import com.example.gymmanagement.global.MyFunction
 import java.time.Month
+import java.util.Date
 import java.util.Locale
 
 
@@ -50,6 +53,7 @@ class FragmentAddMember : Fragment() {
     var threeYear: String?= ""
 
     private  lateinit var binding: FragmentAddMemberBinding
+    private  lateinit var bindingDialog: RenewDialogBinding
     private var captureImage: CaptureImage?=null
     private var gender = "Male"
     private var ID = ""
@@ -73,6 +77,7 @@ class FragmentAddMember : Fragment() {
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = "Add New Member"
         db = activity?.let { DB(it) }
         captureImage = CaptureImage(activity)
 
@@ -104,19 +109,19 @@ class FragmentAddMember : Fragment() {
                 }else {
                     if (binding.edtJoiningDate.text.toString().trim().isNotEmpty()){
                         if (value == "1 Month"){
-                            calculateExpireDate(1,binding.edtExpire)
+                            calculateExpireDate(1,binding.edtJoiningDate,binding.edtExpire)
                             calculateTotal(binding.spMembership,binding.edtDiscount,binding.edttAmount)
                         }else if (value == "3 Months"){
-                            calculateExpireDate(3,binding.edtExpire)
+                            calculateExpireDate(3,binding.edtJoiningDate,binding.edtExpire)
                             calculateTotal(binding.spMembership,binding.edtDiscount,binding.edttAmount)
                         }else if (value == "6 Months"){
-                            calculateExpireDate(6,binding.edtExpire)
+                            calculateExpireDate(6,binding.edtJoiningDate,binding.edtExpire)
                             calculateTotal(binding.spMembership,binding.edtDiscount,binding.edttAmount)
                         }else if (value == "1 Year"){
-                            calculateExpireDate(12,binding.edtExpire)
+                            calculateExpireDate(12,binding.edtJoiningDate,binding.edtExpire)
                             calculateTotal(binding.spMembership,binding.edtDiscount,binding.edttAmount)
                         }else if (value == "3 Years"){
-                            calculateExpireDate(36,binding.edtExpire)
+                            calculateExpireDate(36,binding.edtJoiningDate,binding.edtExpire)
                             calculateTotal(binding.spMembership,binding.edtDiscount,binding.edttAmount)
                         }
 
@@ -211,6 +216,11 @@ class FragmentAddMember : Fragment() {
             loadData()
         }else{
             binding.btnActiveInactive.visibility = View.GONE
+        }
+        binding.btnRenewalSave.setOnClickListener{
+            if (ID.trim().isNotEmpty()){
+                openRenewalDialog()
+            }
         }
     }
 
@@ -316,8 +326,8 @@ class FragmentAddMember : Fragment() {
 
 
     @SuppressLint("SimpleDateFormat")
-    private  fun calculateExpireDate(month: Int, edtExpiry: EditText){
-        val dtStart = binding.edtJoiningDate.text.toString().trim()
+    private  fun calculateExpireDate(month: Int,edtJoining: EditText, edtExpiry: EditText){
+        val dtStart = edtJoining.text.toString().trim()
         if (dtStart.isNotEmpty()){
             val format = SimpleDateFormat("dd/MM/yyyy")
             val date1 = format.parse(dtStart)
@@ -616,11 +626,137 @@ class FragmentAddMember : Fragment() {
                     binding.edtExpire.setText(MyFunction.returnUserDateFormat(expiry))
                     binding.edttAmount.setText(total)
                     binding.edtDiscount.setText(discount)
+
+                    val sdf = SimpleDateFormat("yyyy-MM-dd")
+                    val eDate = sdf.parse(expiry)
+                    if (eDate!!.after(Date())){
+                        binding.btnRenewalSave.visibility = View.GONE
+                    }else{
+                        if (getStatus() == "A"){
+                            binding.btnRenewalSave.visibility = View.VISIBLE
+                        }else{
+                            binding.btnRenewalSave.visibility = View.GONE
+                        }
+                    }
                 }
             }
 
         }catch (e: Exception){
             e.printStackTrace()
+        }
+    }
+
+    private fun openRenewalDialog(){
+        bindingDialog = RenewDialogBinding.inflate(LayoutInflater.from(activity))
+        val dialog = Dialog(requireActivity(), R.style.AlertDialogCustom)
+        dialog.setContentView(bindingDialog.root)
+        dialog.setCancelable(false)
+        dialog.show()
+
+        bindingDialog.edtDialogJoiningDate.setText(binding.edtExpire.text.toString().trim())
+
+        bindingDialog.imgDialogRenewBack.setOnClickListener{
+            dialog.dismiss()
+        }
+
+        ID = arguments?.getString("ID").orEmpty()
+
+
+        val  cal = Calendar.getInstance()
+        val dateSetListener = DatePickerDialog.OnDateSetListener{view1, year, monthOfYear, dayOfMonth ->
+
+            cal.set(Calendar.YEAR,year)
+            cal.set(Calendar.MONTH,monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+
+            val myFormat = "dd/MM/yyyy"
+            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            bindingDialog.edtDialogJoiningDate.setText(sdf.format(cal.time))
+
+        }
+
+        bindingDialog.imgDialogPicDate.setOnClickListener{
+            activity?.let { it1 -> DatePickerDialog(it1,dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show() }
+        }
+        bindingDialog.spDialogMembership.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val value = bindingDialog.spDialogMembership.selectedItem.toString().trim()
+
+                if (value == "Select"){
+                    bindingDialog.edtDialogExpire.setText("")
+                    calculateTotal(bindingDialog.spDialogMembership,bindingDialog.edtDialogDiscount,bindingDialog.edtDialogtAmount)
+                }else {
+                    if (bindingDialog.edtDialogJoiningDate.text.toString().trim().isNotEmpty()){
+                        if (value == "1 Month"){
+                            calculateExpireDate(1,bindingDialog.edtDialogJoiningDate,bindingDialog.edtDialogExpire)
+                            calculateTotal(bindingDialog.spDialogMembership,bindingDialog.edtDialogDiscount,bindingDialog.edtDialogtAmount)
+                        }else if (value == "3 Months"){
+                            calculateExpireDate(3,bindingDialog.edtDialogJoiningDate,bindingDialog.edtDialogExpire)
+                            calculateTotal(bindingDialog.spDialogMembership,bindingDialog.edtDialogDiscount,bindingDialog.edtDialogtAmount)
+                        }else if (value == "6 Months"){
+                            calculateExpireDate(6,bindingDialog.edtDialogJoiningDate,bindingDialog.edtDialogExpire)
+                            calculateTotal(bindingDialog.spDialogMembership,bindingDialog.edtDialogDiscount,bindingDialog.edtDialogtAmount)
+                        }else if (value == "1 Year"){
+                            calculateExpireDate(12,bindingDialog.edtDialogJoiningDate,bindingDialog.edtDialogExpire)
+                            calculateTotal(bindingDialog.spDialogMembership,bindingDialog.edtDialogDiscount,bindingDialog.edtDialogtAmount)
+                        }else if (value == "3 Years"){
+                            calculateExpireDate(36,bindingDialog.edtDialogJoiningDate,bindingDialog.edtDialogExpire)
+                            calculateTotal(bindingDialog.spDialogMembership,bindingDialog.edtDialogDiscount,bindingDialog.edtDialogtAmount)
+                        }
+
+                    }else{
+                        showToast("Select Joining Date First")
+                        bindingDialog.spDialogMembership.setSelection(0)
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+
+        bindingDialog.edtDialogDiscount.addTextChangedListener(object  : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!=null){
+                    calculateTotal(bindingDialog.spDialogMembership,bindingDialog.edtDialogDiscount,bindingDialog.edtDialogtAmount)
+                }
+            }
+
+        })
+
+        bindingDialog.btnDialogRenewSave.setOnClickListener{
+            if (bindingDialog.spDialogMembership.selectedItem.toString().trim()!="Select"){
+                try {
+
+                    val sqlQuery = "UPDATE MEMBER SET DATE_OF_JOINING='"+MyFunction.returnSQLDateFormat(bindingDialog.edtDialogJoiningDate.text.toString().trim())+"',"+
+                            "MEMBERSHIP='"+bindingDialog.spDialogMembership.selectedItem.toString().trim()+"',"+
+                            "EXPIRE_ON='"+MyFunction.returnSQLDateFormat(bindingDialog.edtDialogExpire.text.toString().trim())+"',"+
+                            "DISCOUNT='"+bindingDialog.edtDialogDiscount.text.toString().trim()+"',"+
+                            "TOTAL='"+bindingDialog.edtDialogtAmount.text.toString().trim()+"'WHERE ID='"+ID+"'"
+
+                    db?.executeQuery(sqlQuery)
+                    showToast("Member Data Saved Successfully")
+                    dialog.dismiss()
+                    loadData()
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
+            }else{
+                showToast("Select Membership")
+            }
         }
     }
 

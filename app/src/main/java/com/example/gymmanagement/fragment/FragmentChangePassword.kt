@@ -19,5 +19,11 @@ class FragmentChangePassword : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.title = "Change Password"
+
+    }
+
 
 }

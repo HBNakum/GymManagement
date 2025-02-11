@@ -139,6 +139,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <EditText
@@ -148,8 +150,10 @@
                             android:layout_weight="1"
                             android:hint="Date of Joining"
                             android:inputType="date"
+                            android:textColor="@color/black"
                             android:enabled="false"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp"
+                            tools:ignore="Autofill,HardcodedText,TextFields"/>
 
                         <ImageView
                             android:id="@+id/imgPicDate"
@@ -252,7 +256,19 @@
                             android:id="@+id/btnAddMemberSave"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:text="Save"
+                            android:text="@string/save"
+                            android:background="@color/purple_500"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:layout_marginEnd="5dp"/>
+
+                        <Button
+                            android:id="@+id/btnRenewalSave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="@string/renewal"
                             android:background="@color/purple_500"
                             android:textColor="@color/white"
                             android:textAllCaps="false"
@@ -264,7 +280,7 @@
                             android:id="@+id/btnActiveInactive"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:text="Active"
+                            android:text="@string/active"
                             android:background="@color/purple_500"
                             android:textColor="@color/white"
                             android:textAllCaps="false"
