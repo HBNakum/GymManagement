@@ -166,6 +166,4 @@ class FragmentAllMember : BaseFragment() {
         }
         adapter?.updateList(temp)
     }
-
-
 }

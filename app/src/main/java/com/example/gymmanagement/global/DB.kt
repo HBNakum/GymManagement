@@ -44,7 +44,6 @@ class DB(val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         }
         return tempCursor
     }
-
     companion object {
         private const val DB_VERSION = 1  // Fixed typo
         private const val DB_NAME = "Gym.DB"

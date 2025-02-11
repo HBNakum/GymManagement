@@ -759,6 +759,4 @@ class FragmentAddMember : Fragment() {
             }
         }
     }
-
-
 }

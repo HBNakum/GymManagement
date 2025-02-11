@@ -34,5 +34,4 @@
         android:visibility="gone"
         android:text="@string/no_data_found"/>
 
-
 </RelativeLayout>

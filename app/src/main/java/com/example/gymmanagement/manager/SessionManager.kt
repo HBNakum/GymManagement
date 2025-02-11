@@ -9,7 +9,6 @@ class SessionManager(private var context: Context) {
     private  var pref: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     private var editor: SharedPreferences.Editor = pref.edit()
 
-
     internal var PRIVATE_MODE = 0
 
     val isLoggedIn: Boolean

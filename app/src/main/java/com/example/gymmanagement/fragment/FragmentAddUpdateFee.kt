@@ -113,7 +113,6 @@ class FragmentAddUpdateFee : Fragment() {
             e.printStackTrace()
         }
     }
-
     private fun showToast(value: String) {
         Toast.makeText(activity, value, Toast.LENGTH_LONG).show()
     }

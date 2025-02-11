@@ -97,5 +97,4 @@
             android:text="Address : Flat No:- 101, Ravapar Road Morbi"/>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

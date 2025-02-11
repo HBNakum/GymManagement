@@ -17,6 +17,7 @@ public abstract class BaseFragment extends Fragment {
         mProgess = new ProgressDialog(getActivity());
     }
 
+
     public void showDialog(String msg){
         try {
             mProgess.setMessage(msg);

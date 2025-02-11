@@ -65,6 +65,5 @@ class MyFunction {
             }
             return txtDate
         }
-
     }
 }

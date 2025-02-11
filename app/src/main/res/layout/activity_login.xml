@@ -83,7 +83,6 @@
             android:textColor="@color/red"
             tools:ignore="HardCodedText"/>
 
-
     </LinearLayout>
 
 </RelativeLayout>

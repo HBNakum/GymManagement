@@ -15,4 +15,4 @@ data class AllMember(
     val discount: String = "",
     val total: String = "",
     val image: String = "",
-)
+    )

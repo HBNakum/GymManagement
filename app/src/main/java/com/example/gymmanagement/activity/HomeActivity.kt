@@ -179,7 +179,4 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         return super.onCreateOptionsMenu(menu)
     }
-
 }
-
-//end

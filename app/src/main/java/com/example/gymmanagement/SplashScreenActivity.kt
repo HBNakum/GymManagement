@@ -73,7 +73,6 @@ class SplashScreenActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
         mDelayHandler?.removeCallbacks(mRunnable)

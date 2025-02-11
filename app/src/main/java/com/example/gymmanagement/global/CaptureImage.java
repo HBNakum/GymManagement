@@ -295,6 +295,4 @@ public class CaptureImage {
         return null;
     }
 
-
-
 }

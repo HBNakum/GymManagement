@@ -262,7 +262,8 @@
                             android:textAllCaps="false"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            android:layout_marginEnd="5dp"/>
+                            android:layout_marginEnd="5dp"
+                            tools:ignore="ButtonStyle"/>
 
                         <Button
                             android:id="@+id/btnRenewalSave"
@@ -272,9 +273,11 @@
                             android:background="@color/purple_500"
                             android:textColor="@color/white"
                             android:textAllCaps="false"
+                            android:visibility="gone"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            android:layout_marginEnd="5dp"/>
+                            android:layout_marginEnd="5dp"
+                            tools:ignore="ButtonStyle"/>
 
                         <Button
                             android:id="@+id/btnActiveInactive"
@@ -286,7 +289,8 @@
                             android:textAllCaps="false"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            android:layout_marginStart="5dp"/>
+                            android:layout_marginStart="5dp"
+                            tools:ignore="ButtonStyle"/>
 
                     </LinearLayout>
                 </LinearLayout>

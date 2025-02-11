@@ -29,5 +29,4 @@
         android:layout_height="match_parent"
         android:id="@+id/frame_container"
         android:layout_below="@+id/layoutAppBar"/>
-
 </RelativeLayout>

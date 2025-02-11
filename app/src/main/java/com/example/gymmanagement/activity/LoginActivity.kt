@@ -48,7 +48,6 @@ class LoginActivity : AppCompatActivity() {
             if (validateLogin()){
                 getLogin()
             }
-
         }
 
         binding.txtForgotPassword.setOnClickListener{

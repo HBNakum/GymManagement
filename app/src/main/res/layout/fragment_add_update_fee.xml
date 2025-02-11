@@ -130,6 +130,5 @@
             android:textColor="@color/white"
             android:layout_margin="15sp"
             android:id="@+id/btnAddMemberShip"/>
-
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

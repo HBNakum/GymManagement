@@ -147,5 +147,4 @@ class FragmentFeePending : BaseFragment() {
         }
         adapter?.updateList(temp)
     }
-
 }

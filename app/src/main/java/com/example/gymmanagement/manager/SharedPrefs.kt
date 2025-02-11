@@ -28,5 +28,4 @@ public class SharedPrefs {
             getPrefs(context).edit().clear().apply()
         }
     }
-
 }

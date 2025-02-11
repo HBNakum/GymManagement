@@ -67,5 +67,4 @@ class AdapterLoadMember(var  arrayList: ArrayList<AllMember>): RecyclerView.Adap
         arrayList = list
         notifyDataSetChanged()
     }
-
 }

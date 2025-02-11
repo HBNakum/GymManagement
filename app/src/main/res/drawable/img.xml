@@ -3,4 +3,5 @@
 
     <item android:drawable="@drawable/circle"/>
     <item android:drawable="@drawable/boy"/>
+
 </layer-list>

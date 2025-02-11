@@ -8,5 +8,4 @@
         android:visible="true"
         app:showAsAction="always"
         tools:ignore="MenuTitle"/>
-
 </menu>
